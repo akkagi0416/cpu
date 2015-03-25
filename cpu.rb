@@ -5,14 +5,14 @@ require 'sqlite3'
 df = '/home/pi/a/cpu/cpu.db'
 
 time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-temp = open('/sys/class/thermal/thermal_zone0/temp'){|f| f.read }
-puts time + " " + temp
+temp = open('/sys/class/thermal/thermal_zone0/temp'){|f| f.read }.to_f / 1000
+puts time + " " + temp.to_s
 
 db = SQLite3::Database.new(df)
 sql = <<-SQL
 	CREATE TABLE cpu(
 		time    text,
-		temp	int
+		temp	real
 	)
 SQL
 # テーブル無ければ作成
