@@ -16,7 +16,6 @@ end
 get '/data' do
 	db = SQLite3::Database.new('cpu.db')
 	data = db.execute('SELECT * FROM cpu')
-#	data = db.execute('SELECT * FROM cpu limit 3')
 	data.to_json
 end
 
@@ -42,20 +41,16 @@ javascript:
 			type:		'GET',
 			url:		'/data',
 			dataType:	'json',
-			success: function(d){
-				$.jqplot('chartdiv', [d], {
-					axes:{
-						xaxis:{
-							renderer: $.jqplot.DateAxisRenderer,
-						}
-					},
-					seriesDefaults:{
-						showMarker: false,
+		}).done(function(d){
+			$.jqplot('chartdiv', [d], {
+				axes:{
+					xaxis:{
+						renderer: $.jqplot.DateAxisRenderer,
 					}
-				});
-			},
-			error: function(d){
-				alert('error');
-			}
+				},
+				seriesDefaults:{
+					showMarker: false,
+				}
+			});
 		});
 	});
